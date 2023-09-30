@@ -1,86 +1,79 @@
 
-let CategoriaSueldo = Number(prompt("Por favor, ingresar categoría profesional"));
-
-let horasTrabajadas = Number(prompt("Por favor, ingresar horas trabajadas en el mes"));
-
-let sueldoBase = 1;
-
 const empleadasDomesticas = [
     { categoria: "Primera Categoria", Descripcion: "tareas de supervisión", Sueldo: 159074 },
     { categoria: "Segunda Categoria", Descripcion: "tareas específicas", Sueldo: 147788.50 },
-    { categoria: "Tercera Categoria", Descripcion: "tareas como casera", Sueldo: 144191.5},
-    { categoria: "Cuarta Categoria", Descripcion: "tareas de cuidado de personas", Sueldo: 144191.5},
+    { categoria: "Tercera Categoria", Descripcion: "tareas como casera", Sueldo: 144191.5 },
+    { categoria: "Cuarta Categoria", Descripcion: "tareas de cuidado de personas", Sueldo: 144191.5 },
     { categoria: "Quinta Categoria", Descripcion: "tareas generales", Sueldo: 129670 },
 ];
+/* for (let i = 0; i < empleadasDomesticas.length; i++) {
+    console.log(`categoria: ${empleadasDomesticas[i].categoria}, descripcion: ${empleadasDomesticas[i].Descripcion},sueldo: ${empleadasDomesticas[i].Sueldo} `);
+} */
 
 
-if (CategoriaSueldo == 1) {
-    sueldoBase = (empleadasDomesticas[CategoriaSueldo - 1].Sueldo / 192 * horasTrabajadas)
+function obtenerValorSeleccionado() {
+    let sueldoBase;
+    let categoria = document.getElementById("opcionSelect").value;
+    let horasTrabajadas = Number(document.getElementById("horasTrabajadas").value);
+    let antiguedad = Number(document.getElementById("antiguedad").value);
 
-    alert("Tu sueldo total es $" + sueldoBase + " correspondiente a la " + empleadasDomesticas[CategoriaSueldo - 1].categoria + " que realiza  " + empleadasDomesticas[CategoriaSueldo - 1].Descripcion)
-    console.log("El sueldo calculado es " + sueldoBase);
+    if (categoria == "Categoria 1") {
+        sueldoBase = (empleadasDomesticas[0].Sueldo / 192) * horasTrabajadas;
 
-} else if (CategoriaSueldo == 2) {
-    sueldoBase = (empleadasDomesticas[CategoriaSueldo - 1].Sueldo / 192 * horasTrabajadas)
+    } else if (categoria == "Categoria 2") {
+        sueldoBase = (empleadasDomesticas[1].Sueldo / 192) * horasTrabajadas;
 
-    alert("Tu sueldo total es $" + sueldoBase + " correspondiente a la " + empleadasDomesticas[CategoriaSueldo - 1].categoria + " que realiza  " + empleadasDomesticas[CategoriaSueldo - 1].Descripcion)
-    console.log("El sueldo calculado es " + sueldoBase);
+    } else if (categoria == "Categoria 3") {
+        sueldoBase = (empleadasDomesticas[2].Sueldo / 192) * horasTrabajadas;
 
-} else if (CategoriaSueldo == 3) {
-    sueldoBase = (empleadasDomesticas[CategoriaSueldo - 1].Sueldo / 192 * horasTrabajadas)
+    } else if (categoria == "Categoria 4") {
+        sueldoBase = (empleadasDomesticas[3].Sueldo / 192) * horasTrabajadas;
 
-    alert("Tu sueldo total es $" + sueldoBase + " correspondiente a la " + empleadasDomesticas[CategoriaSueldo - 1].categoria + " que realiza  " + empleadasDomesticas[CategoriaSueldo - 1].Descripcion)
-    console.log("El sueldo calculado es " + sueldoBase);
+    } else if (categoria == "Categoria 5") {
+        sueldoBase = (empleadasDomesticas[4].Sueldo / 192) * horasTrabajadas;
 
-} else if (CategoriaSueldo == 4) {
-    sueldoBase = (empleadasDomesticas[CategoriaSueldo - 1].Sueldo / 192 * horasTrabajadas)
-
-    alert("Tu sueldo total es $" + sueldoBase + " correspondiente a la " + empleadasDomesticas[CategoriaSueldo - 1].categoria + " que realiza  " + empleadasDomesticas[CategoriaSueldo - 1].Descripcion)
-    console.log("El sueldo calculado es " + sueldoBase);
-
-} else if (CategoriaSueldo == 5) {
-    sueldoBase = (empleadasDomesticas[CategoriaSueldo - 1].Sueldo / 192 * horasTrabajadas)
-
-    alert("Tu sueldo total es $" + sueldoBase + " correspondiente a la " + empleadasDomesticas[CategoriaSueldo - 1].categoria + " que realiza  " + empleadasDomesticas[CategoriaSueldo - 1].Descripcion)
-    console.log("El sueldo calculado es " + sueldoBase);
-
-} else {
-    alert("Lo siento, no existe la categoría profesional " + CategoriaSueldo);
-
-}
-
-function SueldoTotal(_SueldoCalculado, _Antiguedad) {
-    _SueldoCalculado = parseFloat(_SueldoCalculado);
-    _Antiguedad = parseFloat(_Antiguedad);
-
-    if (isNaN(_SueldoCalculado) || isNaN(_Antiguedad)) {
-        alert("Por favor, ingresa números válidos.");
-        return;
     }
 
-    let resultado = _SueldoCalculado * (1 + _Antiguedad / 100);
+    let resultado = sueldoBase * (1 + antiguedad / 100);
 
-    alert(" El sueldo calculado con antiguedad es igual a " + resultado);
-    console.log("El sueldo total de la empleada doméstica es " + resultado);
+    console.log("La categoria profesional seleccionada es " + categoria + ", las horas trabajadas son " + horasTrabajadas + ", con una antiguedad de " + antiguedad + " años , el sueldo calculado es " + resultado.toFixed(2));
+    let h2 = document.createElement("h2");
+    h2.textContent = "La categoria profesional seleccionada es " + categoria + ", las horas trabajadas son " + horasTrabajadas + ", con una antiguedad de " + antiguedad + " años , el sueldo calculado es " + resultado.toFixed(2);
+    ;
+
+    document.body.appendChild(h2);
+
+    let CalculoSueldo = {
+        categoria: categoria,
+        horastrabajadas: horasTrabajadas,
+        antiguedad: antiguedad,
+        sueldocalculado: resultado,
+    }
+    let CalculoSueldoJSON = JSON.stringify(CalculoSueldo);
+
+    localStorage.setItem("sueldo calculado", CalculoSueldoJSON);
+
+
+    let datosJSON = localStorage.getItem("sueldo calculado");
+    let datos = JSON.parse(datosJSON);
+    console.log(datos.categoria);
+    console.log(datos.horastrabajadas);
+    console.log(datos.antiguedad);
+    console.log(datos.sueldocalculado);
 }
 
 
-let numero1 = prompt("Ingresa sueldo calculado");
-let numero2 = prompt("Ingresa su antiguedad en años");
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const boton = document.getElementById("miBoton");
 
 
-SueldoTotal(numero1, numero2);
+    boton.addEventListener("click", function (event) {
+        event.preventDefault();
 
-
-
-
-
-
-
-
-
-
-
+    });
+})
 
 
 
