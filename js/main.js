@@ -1,79 +1,66 @@
-
-const empleadasDomesticas = [
-    { categoria: "Primera Categoria", Descripcion: "tareas de supervisión", Sueldo: 159074 },
-    { categoria: "Segunda Categoria", Descripcion: "tareas específicas", Sueldo: 147788.50 },
-    { categoria: "Tercera Categoria", Descripcion: "tareas como casera", Sueldo: 144191.5 },
-    { categoria: "Cuarta Categoria", Descripcion: "tareas de cuidado de personas", Sueldo: 144191.5 },
-    { categoria: "Quinta Categoria", Descripcion: "tareas generales", Sueldo: 129670 },
-];
-/* for (let i = 0; i < empleadasDomesticas.length; i++) {
-    console.log(`categoria: ${empleadasDomesticas[i].categoria}, descripcion: ${empleadasDomesticas[i].Descripcion},sueldo: ${empleadasDomesticas[i].Sueldo} `);
-} */
-
-
-function obtenerValorSeleccionado() {
-    let sueldoBase;
+async function obtenerValorSeleccionado() {
     let categoria = document.getElementById("opcionSelect").value;
     let horasTrabajadas = Number(document.getElementById("horasTrabajadas").value);
     let antiguedad = Number(document.getElementById("antiguedad").value);
 
-    if (categoria == "Categoria 1") {
-        sueldoBase = (empleadasDomesticas[0].Sueldo / 192) * horasTrabajadas;
+    try {
+        const response = await fetch('data/domesticas.json');
+        if (!response.ok) {
+            throw new Error(`Error al obtener los datos: ${response.status}`);
+        }
 
-    } else if (categoria == "Categoria 2") {
-        sueldoBase = (empleadasDomesticas[1].Sueldo / 192) * horasTrabajadas;
+        const data = await response.json();
+        const categoriaData = data.find(item => item.categoria === categoria);
 
-    } else if (categoria == "Categoria 3") {
-        sueldoBase = (empleadasDomesticas[2].Sueldo / 192) * horasTrabajadas;
+        /* console.log("Valor de la categoría seleccionada: " + categoria);
+        console.log("Datos del archivo JSON: ", data); */
 
-    } else if (categoria == "Categoria 4") {
-        sueldoBase = (empleadasDomesticas[3].Sueldo / 192) * horasTrabajadas;
+        if (!categoriaData) {
+            console.error("Categoría no encontrada en el archivo JSON.");
+            return;
+        }
 
-    } else if (categoria == "Categoria 5") {
-        sueldoBase = (empleadasDomesticas[4].Sueldo / 192) * horasTrabajadas;
+        let sueldoBase = (categoriaData.sueldo / 192) * horasTrabajadas;
+        let resultado = sueldoBase * (1 + antiguedad / 100);
 
+        let antiguedadText = (antiguedad === 0) ? "sin antigüedad" : (antiguedad === 1) ? "con 1 año de antigüedad" : `con ${antiguedad} años de antigüedad`;
+
+        console.log(`La categoría profesional seleccionada es ${categoria} y las horas trabajadas son ${horasTrabajadas}, ${antiguedadText}. El sueldo calculado es $${resultado.toFixed(2)}.`);
+
+        let h2 = document.createElement("h2");
+        h2.textContent = `La categoría profesional seleccionada es ${categoria} y las horas trabajadas son ${horasTrabajadas}, ${antiguedadText}. El sueldo calculado es $${resultado.toFixed(2)}.`;
+
+        
+        h2.classList.add("mt-3", "fw-bold", "resultado");
+
+        
+        let resultadoDiv = document.getElementsByClassName("resultado");
+        if (resultadoDiv.length > 0) {
+            resultadoDiv[0].remove();
+        }
+
+        
+        document.body.appendChild(h2);
+
+        let CalculoSueldo = {
+            categoria: categoria,
+            horastrabajadas: horasTrabajadas,
+            antiguedad: antiguedad,
+            sueldocalculado: resultado,
+        }
+        let CalculoSueldoJSON = JSON.stringify(CalculoSueldo);
+        localStorage.setItem("sueldo calculado", CalculoSueldoJSON);
+
+        let datosJSON = localStorage.getItem("sueldo calculado");
+        let datos = JSON.parse(datosJSON);
+        /* console.log(datos.categoria);
+        console.log(datos.horastrabajadas);
+        console.log(datos.antiguedad);
+        console.log(datos.sueldocalculado); */
+
+    } catch (error) {
+        console.error("Error al obtener los datos: " + error.message);
     }
-
-    let resultado = sueldoBase * (1 + antiguedad / 100);
-
-    console.log("La categoria profesional seleccionada es " + categoria + ", las horas trabajadas son " + horasTrabajadas + ", con una antiguedad de " + antiguedad + " años , el sueldo calculado es " + resultado.toFixed(2));
-    let h2 = document.createElement("h2");
-    h2.textContent = "La categoria profesional seleccionada es " + categoria + ", las horas trabajadas son " + horasTrabajadas + ", con una antiguedad de " + antiguedad + " años , el sueldo calculado es " + resultado.toFixed(2);
-    ;
-
-    document.body.appendChild(h2);
-
-    let CalculoSueldo = {
-        categoria: categoria,
-        horastrabajadas: horasTrabajadas,
-        antiguedad: antiguedad,
-        sueldocalculado: resultado,
-    }
-    let CalculoSueldoJSON = JSON.stringify(CalculoSueldo);
-
-    localStorage.setItem("sueldo calculado", CalculoSueldoJSON);
-
-
-    let datosJSON = localStorage.getItem("sueldo calculado");
-    let datos = JSON.parse(datosJSON);
-    console.log(datos.categoria);
-    console.log(datos.horastrabajadas);
-    console.log(datos.antiguedad);
-    console.log(datos.sueldocalculado);
 }
-
-
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const boton = document.getElementById("miBoton");
-
-
-    boton.addEventListener("click", function (event) {
-        event.preventDefault();
-
-    });
-})
-
 
 

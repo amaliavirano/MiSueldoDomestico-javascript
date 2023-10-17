@@ -1,0 +1,28 @@
+
+[
+  {
+    "categoria": "Primera Categoria",
+    "descripcion": "Tareas de supervisión",
+    "sueldo": 159074
+  },
+  {
+    "categoria": "Segunda Categoria",
+    "descripcion": "Tareas específicas",
+    "sueldo": 147788.50
+  },
+  {
+    "categoria": "Tercera Categoria",
+    "descripcion": "Tareas como casera",
+    "sueldo": 144191.5
+  },
+  {
+    "categoria": "Cuarta Categoria",
+    "descripcion": "Tareas de cuidado de personas",
+    "sueldo": 144191.5
+  },
+  {
+    "categoria": "Quinta Categoria",
+    "descripcion": "Tareas generales",
+    "sueldo": 129670
+  }
+]
